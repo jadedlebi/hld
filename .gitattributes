@@ -1,5 +1,0 @@
-C:/Users/jedlebi/Downloads/hld_orig_hu.json filter=lfs diff=lfs merge=lfs -text
-C:/Users/jedlebi/hld/hld_orig_hu.json filter=lfs diff=lfs merge=lfs -text
-C:/Users/jedlebi/Downloads/hld_orig_hu.json filter=lfs diff=lfs merge=lfs -text
-hld_orig_hu.json filter=lfs diff=lfs merge=lfs -text
-hld2mapbox.geojson filter=lfs diff=lfs merge=lfs -text
