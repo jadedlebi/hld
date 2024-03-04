@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>HLD (1981 - 2021) - NCRC</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js'></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.css" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" rel="stylesheet">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+    .slider {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      right: 10px;
+      z-index: 1;
+    }
+    #logo {
+        position: absolute;
+        border-radius: 3px;
+        bottom: 30px;
+        left: 20px;
+        width: 2px;
+        opacity: 80%;
+    }
+    .map-overlay {
+        position: fixed;
+        right: 20px;
+        bottom: 100px;
+        height: 95px;
+        background-color: rgba(255, 255, 255, .9);
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: black;
+        padding: 2px;
+        z-index: 1;
+    }
+    .map-overlay .map-overlay-inner {
+        background-color: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .map-overlay h2 {
+        line-height: 24px;
+        display: block;
+        margin: 0 0 10px;
+    }
+    .map-overlay .legend .bar {
+        height: 10px;
+        width: 100%;
+        background: linear-gradient(to right, #fca107, #7f3121);
+    }
+    .map-overlay input {
+        background-color: transparent;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        margin: 0;
+        cursor: ew-resize;
+    }
+    .mapboxgl-popup {
+        max-width: 100px;
+        font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+    #slider {
+        width: 100%;
+    }
+    #slider-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #play-button {
+      display: inline-block;
+      margin-right: 90%;
+      margin-bottom: 2%;
+    }
+    #slider-labels-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 10px;
+    }
+    .slider-label {
+      font-size: 14px;
+      color: #666;
+    }
+    .slider-label.active {
+      font-weight: bold;
+      color: #333;
+    }
+    #labels-container {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 10px;
+    }
+    .label {
+      width: 19%;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+    .active {
+      color: #000;
+    }
+    .highlighted-point {
+      stroke: #ff0000; /* Red stroke */
+      stroke-width: 2px; /* Make the stroke wider */
+      fill: #ffff00; /* Yellow fill */
+      /* r: 5px; Increase the radius */
+    }
+
+  </style>
+</head>
+<body>
+  <div id='map'></div>
+  <div class="map-overlay top">
+    <div class="map-overlay-inner">
+      <h2>HMDA Longitudinal Dataset<br/>(1981 - 2021)</h2>
+      <div id="slider-container">
+        <button id="play-button">▶</button>
+        <div id="slider-label" style="position: absolute; top: 90px;"><strong>Year: 1981</strong></div>
+        <div id="slider-labels-container">
+            <input id="slider" type="range" min="1981" max="2021" value="1981" step="1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <pre id="logo"></pre>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiamVkbGViaSIsImEiOiJjanhhc3M4NnYwMmxsM3lyODlxYTFhOGRxIn0.746AmyW45uwRPeUy1PczOg';
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/jedlebi/cku2skjsw2o5817r19li2o5y1', 
+        projection: {
+            name: 'mercator'
+        },
+        center: [-96, 37.8],
+        zoom: 3.8
+      });
+
+      var markerHeight = 50, markerRadius = 10, linearOffset = 25;
+      var popupOffsets = {
+        'top': [0, 0],
+        'top-left': [0,0],
+        'top-right': [0,0],
+        'bottom': [0, -markerHeight],
+        'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+        'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+        'left': [markerRadius, (markerHeight - markerRadius) * -1],
+        'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+      };
+
+        // Add a search bar to the map.
+        map.addControl(new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: mapboxgl
+        }));
+        // Add in option for full-screen.
+        map.addControl(new mapboxgl.FullscreenControl());
+        // Add geolocate control to the map.
+        map.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        }));
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl());
+
+      map.on('load', function() {        
+        // NCRC logo
+        document.getElementById('logo').innerHTML = "<img src='https://raw.githubusercontent.com/jadedlebi/hld/main/images/ncrc-logo.png' style='width:200px; height:auto;'>";
+
+        // Declare hatch patterns for each HOLC grade color.
+        const hatches = [
+          "https://raw.githubusercontent.com/jadedlebi/hld/main/images/grade-a1.png",
+          "https://raw.githubusercontent.com/jadedlebi/hld/main/images/grade-b1.png",
+          "https://raw.githubusercontent.com/jadedlebi/hld/main/images/grade-c2a.png",
+          "https://raw.githubusercontent.com/jadedlebi/hld/main/images/grade-d1.png"
+        ];
+        function loadAndAddImage(imageUrl, imageName) {
+            map.loadImage(imageUrl, (error, image) => {
+                if (error) {
+                    console.error('Error loading image:', error);
+                    return;
+                }
+                map.addImage(imageName, image);
+            });
+        }
+        hatches.forEach((url, index) => {
+          const imageName = `hatch-${index}`;
+          loadAndAddImage(url, imageName);
+        });
+
+        map.addSource("hld-0", {
+          type: "vector",
+          url: "mapbox://jedlebi.ccbsa2pp"
+        });
+        map.addSource("hld-1", {
+          type: "vector",
+          url: "mapbox://jedlebi.4j2sv2my"
+        });
+        map.addSource("hld-2", {
+          type: "vector",
+          url: "mapbox://jedlebi.5x2r5vhi"
+        });
+        map.addSource("hld-3", {
+          type: "vector",
+          url: "mapbox://jedlebi.4ouwmgkt"
+        });
+        map.addSource("hld-4", {
+          type: "vector",
+          url: "mapbox://jedlebi.ac5vopai"
+        });
+        map.addSource("holc", {
+          type: "vector",
+          url: "mapbox://jedlebi.8mavlfd0"
+        });
+        map.addSource("holc-boundary", {
+          type: "vector",
+          url: "mapbox://jedlebi.7leow2ug"
+        });
+        map.addSource("hld-co", {
+          type: "vector",
+          url: "mapbox://jedlebi.bmvrpdb4"
+        });
+        map.addSource("hld-cbsa", {
+          type: "vector",
+          url: "mapbox://jedlebi.01w5rk3d"
+        });
+        map.addSource("info0", {
+          type: "vector",
+          url: "mapbox://jedlebi.ajhrnhgt"
+        });
+        map.addSource("info1", {
+          type: "vector",
+          url: "mapbox://jedlebi.2x0woyjb"
+        });
+        map.addSource("info2", {
+          type: "vector",
+          url: "mapbox://jedlebi.chk02pb3"
+        });
+        map.addSource("info31", {
+          type: "vector",
+          url: "mapbox://jedlebi.1pcy5o5g"
+        });
+        map.addSource("info32", {
+          type: "vector",
+          url: "mapbox://jedlebi.13hug3fz"
+        });
+        map.addSource("info33", {
+          type: "vector",
+          url: "mapbox://jedlebi.3km066cn"
+        });
+        map.addSource("info4", {
+          type: "vector",
+          url: "mapbox://jedlebi.chifdmkq"
+        });  
+        map.addSource("hld-outline-0", {
+          type: "vector",
+          url: "mapbox://jedlebi.031ncygs"
+        });
+        map.addSource("hld-outline-1", {
+          type: "vector",
+          url: "mapbox://jedlebi.cz5wmkeg"
+        });
+        map.addSource("hld-outline-2", {
+          type: "vector",
+          url: "mapbox://jedlebi.7dcwry8k"
+        });
+        map.addSource("hld-outline-31", {
+          type: "vector",
+          url: "mapbox://jedlebi.2tcmtusf"
+        });
+        map.addSource("hld-outline-32", {
+          type: "vector",
+          url: "mapbox://jedlebi.bfli84vg"
+        });
+        map.addSource("hld-outline-33", {
+          type: "vector",
+          url: "mapbox://jedlebi.9sq06n3r"
+        });
+        map.addSource("hld-outline-4", {
+          type: "vector",
+          url: "mapbox://jedlebi.40ll233f"
+        });   
+
+        map.addLayer({
+          id: "info-0",
+          type: "fill",
+          source: "info0",
+          "source-layer": "hld_pop0-b79xrn",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-1",
+          type: "fill",
+          source: "info1",
+          "source-layer": "hld_pop1-dmbsdf",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-2",
+          type: "fill",
+          source: "info2",
+          "source-layer": "hld_pop2-3grch2",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-31",
+          type: "fill",
+          source: "info31",
+          "source-layer": "hld_pop31-4l1cdy",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-32",
+          type: "fill",
+          source: "info32",
+          "source-layer": "hld_pop32-1y395c",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-33",
+          type: "fill",
+          source: "info33",
+          "source-layer": "hld_pop33-8cthas",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "info-4",
+          type: "fill",
+          source: "info4",
+          "source-layer": "hld_pop4-8hvgo9",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#4C3B5A',
+              ['>=', ['get', 'minpop80'], 50], '#9F95A7',
+              'transparent' 
+            ],
+            "fill-outline-color": "transparent",
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-0",
+          type: "fill",
+          source: "hld-outline-0",
+          "source-layer": "hld_0-4ii4n5",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3'
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-1",
+          type: "fill",
+          source: "hld-outline-1",
+          "source-layer": "hld_1-4ku8cf",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-2",
+          type: "fill",
+          source: "hld-outline-2",
+          "source-layer": "hld_2-9an09l",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-31",
+          type: "fill",
+          source: "hld-outline-31",
+          "source-layer": "hld_31-dqnz7q",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-32",
+          type: "fill",
+          source: "hld-outline-32",
+          "source-layer": "hld_32-7eoj13",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-33",
+          type: "fill",
+          source: "hld-outline-33",
+          "source-layer": "hld_33-2bovy0",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-4",
+          type: "fill",
+          source: "hld-outline-4",
+          "source-layer": "hld_4-7k4u16",
+          paint: {
+            'fill-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#352344',
+              ['>=', ['get', 'minpop80'], 50], '#635371',
+              '#D3D3D3' 
+            ],
+            "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+            id: 'hld-msa',
+            type: 'circle',
+            source: 'hld-cbsa',
+            "source-layer": "hld_msa-7y4mg6",
+            layout: {
+                'visibility': 'visible' // default visible at low zoom levels
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                5, 20 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+            // Define other properties as needed
+        });
+        map.addLayer({
+            id: 'hld-county',
+            type: 'circle',
+            source: 'hld-co',
+            "source-layer": "hld_county-66ok1g",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                5, 20 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+            // Define other properties as needed
+        });
+        map.addLayer({
+            id: 'hld-tract-0',
+            type: 'circle',
+            source: 'hld-0',
+            "source-layer": "hld_circ_0-900zq3",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                15, 10 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#007cbf'
+            }
+        });
+        map.addLayer({
+            id: 'hld-tract-1',
+            type: 'circle',
+            source: 'hld-1',
+            "source-layer": "hld_circ_1-13z76t",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                15, 10 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+        });
+        map.addLayer({
+            id: 'hld-tract-2',
+            type: 'circle',
+            source: 'hld-2',
+            "source-layer": "hld_circ_2-a6gbd9",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                15, 10 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+        });
+        map.addLayer({
+            id: 'hld-tract-3',
+            type: 'circle',
+            source: 'hld-3',
+            "source-layer": "hld_circ_3-1hupsh",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                15, 10 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+        });
+        map.addLayer({
+            id: 'hld-tract-4',
+            type: 'circle',
+            source: 'hld-4',
+            "source-layer": "hld_circ_4-57y94y",
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                // Set initial circle size based on a default year, e.g., 1981
+                'circle-radius': [
+                'interpolate', ['linear'], ['get', 'orig_hu_81'],
+                1, 2, // Small circle size for small loan values
+                15, 10 // Larger circle size for larger loan values
+                ],
+                'circle-color': '#173B4A'
+            }
+        });
+        map.addLayer({
+          id: "holc-outline",
+          type: "line",
+          source: "holc-boundary",
+          "source-layer": "holc-8hwxzf",
+          paint: {
+            'line-color': '#656464',
+            'line-width': 2,
+            'line-opacity': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                3, 0, // At zoom level 3, opacity is 0.1
+                5, 0.5, // At zoom level 5, opacity is 0.7
+                20, 1 // At zoom level 20, opacity is 0
+            ]
+          },
+          filter: ['!=', 'grade', ""]
+        });
+        map.addLayer({
+          id: "holc-id",
+          type: "fill",
+          source: "holc",
+          "source-layer": "holc_buffer-9hkx3y",
+          paint: {
+            'fill-pattern': [
+              'case',
+              ['==', ['get', 'grade'], 'A'], 'hatch-0', // Green for "A" '#008000'
+              ['==', ['get', 'grade'], 'B'], 'hatch-1', // Blue for "B" '#0000FF'
+              ['==', ['get', 'grade'], 'C'], 'hatch-2', // Yellow for "C" '#FFFF00'
+              ['==', ['get', 'grade'], 'D'], 'hatch-3', // Red for "D" '#FF0000'
+              '#000000' // Default color if none of the above values match (black in this case)
+            ],
+            "fill-outline-color": "transparent",
+          },
+          filter: ['!=', 'grade', ""]
+        });
+
+        var circLayers = ['hld-msa', 'hld-county', 'hld-tract-0', 'hld-tract-1', 'hld-tract-2', 'hld-tract-3', 'hld-tract-4'];
+        var fillLayers = ['info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
+        var tractLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4', 'info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4', 'hld-tract-0', 'hld-tract-1', 'hld-tract-2', 'hld-tract-3', 'hld-tract-4'];
+        var hoverLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4'];
+        var popLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4', 'info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
+
+        popLayers.forEach(function(layer) {
+          map.moveLayer(layer, 'holc-id');
+          map.moveLayer(layer, 'road-label');
+          map.moveLayer(layer, 'water');
+        });
+        map.moveLayer('holc-id', 'holc-outline');
+        map.moveLayer('holc-outline', 'hld-tract-0');
+        map.moveLayer('holc-id', 'hld-tract-1');
+        map.moveLayer('holc-outline', 'hld-tract-2');
+        map.moveLayer('holc-outline', 'hld-tract-3');
+        map.moveLayer('holc-outline', 'hld-tract-4');
+        map.moveLayer('holc-outline', 'road-label');
+        map.moveLayer('holc-outline', 'water');
+        map.moveLayer('holc-outline', 'national-park');
+
+        // Round values to nearest whole integer and include thousand seperators.
+        function round(num) {
+          return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+          // console.log((typeof num).concat(', ', num))
+          // return num
+        }
+        // // Round values to nearest second decimal and include thousand seperators.
+        function decimalRound(num) {
+          return num.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        } 
+        
+        map.on('zoom', () => {
+            var zoomLevel = map.getZoom();
+            if (zoomLevel < 5) {
+                map.setLayoutProperty('hld-msa', 'visibility', 'visible');
+                map.setLayoutProperty('hld-county', 'visibility', 'none');
+                map.setLayoutProperty('holc-id', 'visibility', 'none');
+                map.setLayoutProperty('holc-outline', 'visibility', 'none');
+                map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
+                tractLayers.forEach(function(layer) {
+                  map.setLayoutProperty(layer, 'visibility', 'none');
+                });
+            } else if (zoomLevel >= 5 && zoomLevel < 8) {
+                map.setLayoutProperty('hld-msa', 'visibility', 'none');
+                map.setLayoutProperty('hld-county', 'visibility', 'visible');
+                map.setLayoutProperty('holc-id', 'visibility', 'none');
+                map.setLayoutProperty('holc-outline', 'visibility', 'none');
+                map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
+                tractLayers.forEach(function(layer) {
+                  map.setLayoutProperty(layer, 'visibility', 'none');
+                });
+              } else if (zoomLevel >= 8 && zoomLevel < 12.5) {
+                map.setLayoutProperty('hld-msa', 'visibility', 'none');
+                map.setLayoutProperty('hld-county', 'visibility', 'none');
+                map.setLayoutProperty('holc-id', 'visibility', 'visible');
+                map.setLayoutProperty('holc-outline', 'visibility', 'visible');
+                map.setLayoutProperty('road-street-low', 'visibility', 'none');
+                map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'visible');
+                tractLayers.forEach(function(layer) {
+                  map.setLayoutProperty(layer, 'visibility', 'visible');
+                });
+              } else {
+                map.setLayoutProperty('hld-msa', 'visibility', 'none');
+                map.setLayoutProperty('hld-county', 'visibility', 'none');
+                map.setLayoutProperty('holc-id', 'visibility', 'visible');
+                map.setLayoutProperty('holc-outline', 'visibility', 'visible');
+                map.setLayoutProperty('road-street-low', 'visibility', 'visible');
+                tractLayers.forEach(function(layer) {
+                  map.setLayoutProperty(layer, 'visibility', 'visible');
+                });
+              }
+        });
+
+        // Global variable to store the current year
+        var alphaYear = 1981; // Initialize with the default or current year
+
+        map.on('click', function(e) {
+          var features = map.queryRenderedFeatures(e.point, { layers: fillLayers });
+          if (features.length > 0) {
+            var feature = features[0]; // Assuming the first feature is the desired one
+
+            // Prepare data for the first chart
+            var originationData = [['Year'], ['Originations']];
+            var medianData = ['Median'];
+
+            for (let year = 1981; year <= 2021; year++) {
+              let origKey = `orig_${String(year).slice(-2)}`;
+              let medKey = `med_${String(year).slice(-2)}`;
+              originationData[0].push(year); // Year
+              originationData[1].push(feature.properties[origKey] || 0); // Origination value
+              medianData.push(feature.properties[medKey] || 0); // Median value
+            }
+
+            var uniqueId = 'chart-' + Date.now(); // Creates a unique ID for the chart
+            var popupContent = `<div id="${uniqueId}" style="width: 300px; height: 200px;"></div>`;
+            new mapboxgl.Popup({ offset: popupOffsets, maxWidth: "350px" })
+              .setLngLat(e.lngLat)
+              .setHTML(popupContent)
+              .addTo(map);
+
+            generateChart([originationData[0], originationData[1], medianData], '#' + uniqueId);
+            updateChartForYear(alphaYear); // Assuming this function will be adjusted to handle both charts
+          }
+        });
+        
+        function generateChart(dataColumns, uniqueId) {
+          var chart = c3.generate({
+            bindto: uniqueId,
+            size: { width: 300, height: 200 },
+            onmouseover: function (data) {
+              // When hovering, re-apply the highlighting based on `currentYear`
+              updateChartForYear(dataColumns, uniqueId);
+            },
+            onmouseout: function (data) {
+              // Optional: Handle any style reversion on mouse out
+              // This might not be needed if `updateChartForYear` already manages styles correctly
+            },
+            data: {
+              x: 'Year',
+              columns: dataColumns,
+              types: {
+                Originations: 'line', // Example: origination data as bars
+                Median: 'bar', // Example: median data as a line
+              },
+              colors: {
+                Originations: '#103457', // Example color
+                Median: '#E5E6E8', // Example color
+              },
+              names: {
+                  // This directly renames the tooltip labels
+                  Originations: 'Originations', // Keeps the original name
+                  Median: 'Area Median' // Changes 'Median' to 'Area Median'
+              }
+            },
+            axis: {
+              x: {
+                type: 'category',
+                tick: {
+                  rotate: 0, // Rotate tick labels to 0 degrees (horizontal)
+                  multiline: false, // Disable multiline to prevent automatic wrapping
+                  culling: {
+                      max: 10 // Adjust 'max' as needed to reduce label density
+                  }
+                },
+                categories: Array.from({length: 41}, (_, i) => 1981 + i)
+              }
+            },
+            tooltip: {
+              grouped: true, // Ensure tooltips are grouped for all series
+              format: {
+                  // Optional: Use if you need to customize the tooltip further than just renaming
+                  name: function (name, ratio, id, index) {
+                      // You can add conditional logic here if needed
+                      return name; // Returns the modified name from `names` configuration
+                  }
+              }
+            },
+            point: {
+              show: function(d) { return d.id !== 'Median'; } // Hide points only for 'Median'
+            },
+            padding: { bottom: 40, right: 20 },
+            legend: { show: false } // Hide the legend
+          });
+        }
+        function updateChartForYear(selectedYear) {
+            // Assuming 'selectedYear' can be directly mapped to an index in your data
+            var yearIndex = selectedYear - 1981; // Example calculation, adjust based on your data structure
+
+            // Reset any previously applied styles for highlighting
+            // This sets all bars back to the default color
+            d3.selectAll('.c3-bar').style('fill', ''); // Assuming you have a default or initial color set elsewhere
+
+            // Apply a new fill color to highlight the bar for the selected year
+            // Assuming 'Median' is your data series for medians
+            d3.selectAll('.c3-bars-Median .c3-bar-' + yearIndex)
+              .style('fill', '#8F98A8'); // Example: Change fill color to red for highlighting
+
+            // Note: Adjust the class names according to your actual data series names and structure
+
+            // Reset styles for all points by setting radius to default and removing custom styles
+            d3.selectAll('.c3-circle').attr('r', 2.5) // Assuming 2.5 is your default radius
+                                      .style('stroke', '') // Reset custom stroke
+                                      .style('stroke-width', ''); // Reset custom stroke width
+
+            // Highlight the circle (data point) for the selected year
+            d3.selectAll('.c3-circles .c3-circle-' + yearIndex)
+              .each(function() {
+                  d3.select(this)
+                    .attr('r', 2.5) // Increase the radius for the highlighted point
+                    .style('stroke', '#103457') // Red stroke for highlighted point
+                    .style('stroke-width', '3px'); // Wider stroke width for highlighted point
+              });
+          }
+
+        map.on('mouseenter', hoverLayers, () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+         
+        map.on('mouseleave', hoverLayers, () => {
+          map.getCanvas().style.cursor = '';
+        });
+
+        map.on("mousemove", function(e) {
+          var features = map.queryRenderedFeatures(e.point, { layers: fillLayers });
+          map.getCanvas().style.cursor = (features.length) ? "pointer" : "";
+          
+          if (features.length) {
+              var filter = ["==", ["get", "geoid10"], features[0].properties.geoid10];
+              hoverLayers.forEach(function(layer) {
+                  map.setFilter(layer, filter);
+              });
+          } else {
+              hoverLayers.forEach(function(layer) {
+                  map.setFilter(layer, ["==", ["get", "geoid10"], ""]);
+              });
+          }
+        });
+
+        map.on("mouseleave", hoverLayers, function() {
+          map.getCanvas().style.cursor = "";
+          hoverLayers.forEach(function(layer) {
+            map.on("mouseleave", layer, function() {
+                map.setFilter(layer, ["==", ["get", "geoid10"], ""]);
+                map.getCanvas().style.cursor = "";
+            });
+          })
+        });
+
+        // Play Button on Slider
+        var intervalId;
+
+        function updateMap(input) {
+            var year = typeof input === 'object' ? parseInt(input.target.value) : input;
+            var origField = 'orig_hu_' + year.toString().slice(-2); // Adjusts to your naming convention
+            var minpopField = 'minpop' + (Math.floor((year - 1) / 10) * 10).toString().slice(-2); // Finds the correct decade
+
+            // Update the slider label to reflect the current year
+            $('#slider-label').html('<strong>Year: ' + year + '</strong>');
+
+            // Update the map layer with the new data
+            circLayers.forEach(function(cLayer) {
+                map.setPaintProperty(cLayer, 'circle-radius', [
+                    'interpolate', ['linear'], ['get', origField],
+                    1, 2, // Small circle size for small loan values
+                    15, 10 // Larger circle size for larger loan values
+                ]);
+            });
+
+            fillLayers.forEach(function(fLayer) {
+                map.setPaintProperty(fLayer, 'fill-color', [
+                    'case',
+                    ['>=', ['get', minpopField], 80], '#4C3B5A',
+                    ['>=', ['get', minpopField], 50], '#9F95A7',
+                    'transparent'
+                ]);
+            });
+            updateChartForYear(input);
+        }
+
+        $(document).ready(function() {
+            // Set the slider to the alpha year
+            $('#slider').val(alphaYear).trigger('input');
+            $('#play-button').click(function() {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                    $(this).text('▶');
+                } else {
+                    var currentValue = parseInt($('#slider').val());
+                    var endYear = 2021;
+
+                    intervalId = setInterval(function() {
+                        currentValue++;
+                        if (currentValue > 2021) {
+                            clearInterval(intervalId);
+                            intervalId = null;
+                            $('#play-button').text('▶');
+                        } else {
+                            $('#slider').val(currentValue).trigger('input');
+                            alphaYear = currentValue; // Update the global alphaYear
+                        }
+                    }, 500);
+
+                    $(this).text('❚❚');
+                }
+            });
+
+          $('#slider').on('input change', function() {
+              var year = parseInt($(this).val());
+              alphaYear = year; // Update the global alphaYear
+              updateMap(year);
+              updateChartForYear(year);
+          });
+        });
+      });
+// https://www.compart.com/en/unicode
+// ❚❚ heavy vertical bar (U+275A)
+// ▶ black right-pointing triangle (U+25B6)
+    </script>
+  </body>
+</html>
