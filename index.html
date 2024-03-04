@@ -782,7 +782,7 @@
             var popupContent = `<div id="${uniqueId}" style="width: 300px; height: 200px;"></div>`;
             new mapboxgl.Popup({ offset: popupOffsets, maxWidth: "350px" })
               .setLngLat(e.lngLat)
-              .setHTML(alphaYear+popupContent)
+              .setHTML(popupContent)
               .addTo(map);
 
             generateChart([originationData[0], originationData[1], medianData], '#' + uniqueId);
