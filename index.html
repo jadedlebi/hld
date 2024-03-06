@@ -147,7 +147,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiamVkbGViaSIsImEiOiJjanhhc3M4NnYwMmxsM3lyODlxYTFhOGRxIn0.746AmyW45uwRPeUy1PczOg';
       var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/jedlebi/cku2skjsw2o5817r19li2o5y1', 
+        style: 'mapbox://styles/jedlebi/cltg2vre600wz01p02c3jf3h3', 
         projection: {
             name: 'mercator'
         },
@@ -424,7 +424,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3'
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -439,7 +439,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -454,7 +454,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -469,7 +469,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -484,7 +484,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -499,7 +499,7 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
           }
@@ -514,9 +514,114 @@
               'case',
               ['>=', ['get', 'minpop80'], 80], '#352344',
               ['>=', ['get', 'minpop80'], 50], '#635371',
-              '#D3D3D3' 
+              '#A7A7A7'
             ],
             "fill-opacity": 0.7
+          }
+        });
+        map.addLayer({
+          id: "hover-line-0",
+          type: "line",
+          source: "hld-outline-0",
+          "source-layer": "hld_0-4ii4n5",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-1",
+          type: "line",
+          source: "hld-outline-1",
+          "source-layer": "hld_1-4ku8cf",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-2",
+          type: "line",
+          source: "hld-outline-2",
+          "source-layer": "hld_2-9an09l",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-31",
+          type: "line",
+          source: "hld-outline-31",
+          "source-layer": "hld_31-dqnz7q",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-32",
+          type: "line",
+          source: "hld-outline-32",
+          "source-layer": "hld_32-7eoj13",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-33",
+          type: "line",
+          source: "hld-outline-33",
+          "source-layer": "hld_33-2bovy0",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
+          }
+        });
+        map.addLayer({
+          id: "hover-line-4",
+          type: "line",
+          source: "hld-outline-4",
+          "source-layer": "hld_4-7k4u16",
+          paint: {
+            'line-color': [
+              'case',
+              ['>=', ['get', 'minpop80'], 80], '#1A0927',
+              ['>=', ['get', 'minpop80'], 50], '#291539',
+              '#7A7979'
+            ],
+            "line-width": 2
           }
         });
         map.addLayer({
@@ -534,7 +639,10 @@
                 1, 2, // Small circle size for small loan values
                 5, 20 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
             // Define other properties as needed
         });
@@ -553,7 +661,10 @@
                 1, 2, // Small circle size for small loan values
                 5, 20 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
             // Define other properties as needed
         });
@@ -572,7 +683,10 @@
                 1, 2, // Small circle size for small loan values
                 15, 10 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#007cbf'
+                'circle-color': '#007cbf',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
         });
         map.addLayer({
@@ -590,7 +704,10 @@
                 1, 2, // Small circle size for small loan values
                 15, 10 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
         });
         map.addLayer({
@@ -608,7 +725,10 @@
                 1, 2, // Small circle size for small loan values
                 15, 10 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
         });
         map.addLayer({
@@ -626,7 +746,10 @@
                 1, 2, // Small circle size for small loan values
                 15, 10 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
         });
         map.addLayer({
@@ -644,7 +767,10 @@
                 1, 2, // Small circle size for small loan values
                 15, 10 // Larger circle size for larger loan values
                 ],
-                'circle-color': '#173B4A'
+                'circle-color': '#173B4A',
+                'circle-opacity': 0.6, // Lower opacity for base circles
+                'circle-stroke-width': 1, // Thin white stroke
+                'circle-stroke-color': '#ffffff'
             }
         });
         map.addLayer({
@@ -688,7 +814,9 @@
         var circLayers = ['hld-msa', 'hld-county', 'hld-tract-0', 'hld-tract-1', 'hld-tract-2', 'hld-tract-3', 'hld-tract-4'];
         var fillLayers = ['info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
         var tractLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4', 'info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4', 'hld-tract-0', 'hld-tract-1', 'hld-tract-2', 'hld-tract-3', 'hld-tract-4'];
-        var hoverLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4'];
+        var hoverLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4', 'hover-line-0', 'hover-line-1', 'hover-line-2', 'hover-line-31', 'hover-line-32', 'hover-line-33', 'hover-line-4'];
+        var hoverFillLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4'];
+        var hoverLineLayers = ['hover-line-0', 'hover-line-1', 'hover-line-2', 'hover-line-31', 'hover-line-32', 'hover-line-33', 'hover-line-4'];
         var popLayers = ['hover-0', 'hover-1', 'hover-2', 'hover-31', 'hover-32', 'hover-33', 'hover-4', 'info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
 
         popLayers.forEach(function(layer) {
@@ -696,6 +824,13 @@
           map.moveLayer(layer, 'road-label');
           map.moveLayer(layer, 'water');
         });
+        map.moveLayer('hover-0','hover-line-0');
+        map.moveLayer('hover-1','hover-line-1');
+        map.moveLayer('hover-2','hover-line-2');
+        map.moveLayer('hover-31','hover-line-31');
+        map.moveLayer('hover-32','hover-line-32');
+        map.moveLayer('hover-33','hover-line-33');
+        map.moveLayer('hover-4','hover-line-4');
         map.moveLayer('holc-id', 'holc-outline');
         map.moveLayer('holc-outline', 'hld-tract-0');
         map.moveLayer('holc-id', 'hld-tract-1');
