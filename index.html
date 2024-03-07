@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>HLD (1981 - 2021) - NCRC</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js'></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.css" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" rel="stylesheet">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id='map'></div>
+  <div class="map-overlay top">
+    <div class="map-overlay-inner">
+      <h2>HMDA Longitudinal Dataset<br/>(1981 - 2021)</h2>
+      <div id="slider-container">
+        <button id="play-button">▶</button>
+        <div id="slider-label" style="position: absolute; top: 90px;"><strong>Year: 1981</strong></div>
+        <div id="slider-labels-container">
+            <input id="slider" type="range" min="1981" max="2021" value="1981" step="1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <pre id="logo"></pre>
+  <script src="js/mapInit.js"></script>
+  <script src="js/images.js"></script>
+  <script src="js/sources.js"></script>
+  <script src="js/layers.js"></script>
+  <script src="js/moveLayers.js"></script>
+  <script src="js/roundingFunctions.js"></script>
+  <script src="js/zoom.js"></script>
+  <script src="js/click.js"></script>
+  <script src="js/chart1.js"></script>
+  <script src="js/updateCharts.js"></script>
+  <script src="js/hover.js"></script>
+  <script src="js/slider.js"></script>
+  <script>
+      initializeMap(map);
+      map.on('load', function() {        
+        getImages(map);
+        addMapSources(map);
+        addMapLayers(map);
+        moveMapLayers(map);
+        zoomEvent(map, tractLayers);
+        clickEvent(map, fillLayers, popupOffsets, alphaYear);
+        // Included Functions:
+            // chart1.js - generateChart1(dataColumns, uniqueId);
+            // updateCharts.js - updateChartForYear(selectedYear);
+        hoverEvents(map, hoverLayers, fillLayers);
+      });
+    </script>
+  </body>
+</html>
