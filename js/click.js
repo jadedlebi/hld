@@ -10,7 +10,11 @@ var popupOffsets = {
     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
 };
 
-var fillLayers = ['info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
+var fillLayers = ['info-0', 'info-11', 'info-12', 'info-13', 'info-14', 
+                    'info-21', 'info-22', 'info-23', 'info-24', 
+                    'info-31', 'info-32', 'info-33', 'info-34', 
+                    'info-41', 'info-42', 'info-43', 'info-44'
+                 ];
 
 var alphaYear = 1981;
 
