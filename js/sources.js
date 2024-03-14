@@ -1,94 +1,136 @@
 function addMapSources(map) {
-    map.addSource("hld-0", {
-        type: "vector",
-        url: "mapbox://jedlebi.ccbsa2pp"
-    });
-    map.addSource("hld-1", {
-        type: "vector",
-        url: "mapbox://jedlebi.4j2sv2my"
-    });
-    map.addSource("hld-2", {
-        type: "vector",
-        url: "mapbox://jedlebi.5x2r5vhi"
-    });
-    map.addSource("hld-3", {
-        type: "vector",
-        url: "mapbox://jedlebi.4ouwmgkt"
-    });
-    map.addSource("hld-4", {
-        type: "vector",
-        url: "mapbox://jedlebi.ac5vopai"
-    });
+    
+    // MINORITY POP SOURCE
+    // map.addSource("min-pop", {
+    //     type: "vector",
+    //     url: "mapbox://jedlebi.1n33b2o4"
+    // });
+
+    // HOLC SOURCES
     map.addSource("holc", {
         type: "vector",
-        url: "mapbox://jedlebi.8mavlfd0"
+        url: "mapbox://jedlebi.697c6bxp"
     });
     map.addSource("holc-boundary", {
         type: "vector",
-        url: "mapbox://jedlebi.7leow2ug"
+        url: "mapbox://jedlebi.3w72uw8h"
     });
-    map.addSource("hld-co", {
+    
+    // HLD COUNTY AND CBSA SOURCES
+    map.addSource("hld-co1", {
         type: "vector",
-        url: "mapbox://jedlebi.bmvrpdb4"
+        url: "mapbox://jedlebi.11bd7d8n"
     });
-    map.addSource("hld-cbsa", {
+    map.addSource("hld-co2", {
         type: "vector",
-        url: "mapbox://jedlebi.01w5rk3d"
+        url: "mapbox://jedlebi.136xvf85"
     });
-    map.addSource("info0", {
+    map.addSource("hld-cbsa1", {
         type: "vector",
-        url: "mapbox://jedlebi.ajhrnhgt"
+        url: "mapbox://jedlebi.6gg1e5d7"
     });
-    map.addSource("info1", {
+    map.addSource("hld-cbsa2", {
         type: "vector",
-        url: "mapbox://jedlebi.2x0woyjb"
+        url: "mapbox://jedlebi.57b79mao"
     });
-    map.addSource("info2", {
+
+    // HLD TRACT POLYGON SOURCES
+    map.addSource("hld-0", {
         type: "vector",
-        url: "mapbox://jedlebi.chk02pb3"
+        url: "mapbox://jedlebi.4288ejea"
     });
-    map.addSource("info31", {
+    map.addSource("hld-11", {
         type: "vector",
-        url: "mapbox://jedlebi.1pcy5o5g"
+        url: "mapbox://jedlebi.6yc77zw0"
     });
-    map.addSource("info32", {
+    map.addSource("hld-12", {
         type: "vector",
-        url: "mapbox://jedlebi.13hug3fz"
+        url: "mapbox://jedlebi.c8msph5h"
     });
-    map.addSource("info33", {
+    map.addSource("hld-13", {
         type: "vector",
-        url: "mapbox://jedlebi.3km066cn"
+        url: "mapbox://jedlebi.asjw9gd3"
     });
-    map.addSource("info4", {
+    map.addSource("hld-14", {
         type: "vector",
-        url: "mapbox://jedlebi.chifdmkq"
-    });  
-    map.addSource("hld-outline-0", {
-        type: "vector",
-        url: "mapbox://jedlebi.031ncygs"
+        url: "mapbox://jedlebi.acygmt2m"
     });
-    map.addSource("hld-outline-1", {
+    map.addSource("hld-21", {
         type: "vector",
-        url: "mapbox://jedlebi.cz5wmkeg"
+        url: "mapbox://jedlebi.bvtolgh6"
     });
-    map.addSource("hld-outline-2", {
+    map.addSource("hld-22", {
         type: "vector",
-        url: "mapbox://jedlebi.7dcwry8k"
+        url: "mapbox://jedlebi.0cjlv6bv"
     });
-    map.addSource("hld-outline-31", {
+    map.addSource("hld-23", {
         type: "vector",
-        url: "mapbox://jedlebi.2tcmtusf"
+        url: "mapbox://jedlebi.aaqrgtfv"
     });
-    map.addSource("hld-outline-32", {
+    map.addSource("hld-24", {
         type: "vector",
-        url: "mapbox://jedlebi.bfli84vg"
+        url: "mapbox://jedlebi.6hjfx4nu"
     });
-    map.addSource("hld-outline-33", {
+    map.addSource("hld-31", {
         type: "vector",
-        url: "mapbox://jedlebi.9sq06n3r"
+        url: "mapbox://jedlebi.anrjta64"
     });
-    map.addSource("hld-outline-4", {
+    map.addSource("hld-32", {
         type: "vector",
-        url: "mapbox://jedlebi.40ll233f"
+        url: "mapbox://jedlebi.a1wwj6lp"
+    });
+    map.addSource("hld-33", {
+        type: "vector",
+        url: "mapbox://jedlebi.6089k8yo"
+    });
+    map.addSource("hld-34", {
+        type: "vector",
+        url: "mapbox://jedlebi.ah2ju266"
+    });
+    map.addSource("hld-41", {
+        type: "vector",
+        url: "mapbox://jedlebi.b58ghezr"
+    });
+    map.addSource("hld-42", {
+        type: "vector",
+        url: "mapbox://jedlebi.8808ld85"
+    });
+    map.addSource("hld-43", {
+        type: "vector",
+        url: "mapbox://jedlebi.4tje7i23"
+    });
+    map.addSource("hld-44", {
+        type: "vector",
+        url: "mapbox://jedlebi.a1s7f4km"
+    });
+
+    // HLD TRACT CIRCLE SOURCES
+    map.addSource("hld-c0", {
+        type: "vector",
+        url: "mapbox://jedlebi.1hf1dflv"
+    });
+    map.addSource("hld-c1", {
+        type: "vector",
+        url: "mapbox://jedlebi.9ff494jh"
+    });
+    map.addSource("hld-c2", {
+        type: "vector",
+        url: "mapbox://jedlebi.0motqnmx"
+    });
+    map.addSource("hld-c31", {
+        type: "vector",
+        url: "mapbox://jedlebi.5jlgfvo5"
+    });
+    map.addSource("hld-c32", {
+        type: "vector",
+        url: "mapbox://jedlebi.3b1uhi66"
+    });
+    map.addSource("hld-c33", {
+        type: "vector",
+        url: "mapbox://jedlebi.4sw3ci45"
+    });
+    map.addSource("hld-c4", {
+        type: "vector",
+        url: "mapbox://jedlebi.7gh96y7y"
     });
 }
