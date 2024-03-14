@@ -2,35 +2,255 @@
 // ❚❚ heavy vertical bar (U+275A)
 // ▶ black right-pointing triangle (U+25B6)
 
-var circLayers = ['hld-msa', 'hld-county', 'hld-tract-0', 'hld-tract-1', 'hld-tract-2', 'hld-tract-3', 'hld-tract-4'];
-var fillLayers = ['info-0', 'info-1', 'info-2', 'info-31', 'info-32', 'info-33', 'info-4'];
+var circLayers = ['circ-0', 'circ-1', 'circ-2', 'circ-31', 'circ-32', 'circ-33', 'circ-4'];
+
+var countyLayer = ['county-circle'];
+
+var msaLayer = ['msa-circle']
+
+var fillLayers = ['info-0', 'info-11', 'info-12', 'info-13', 'info-14', 
+                        'info-21', 'info-22', 'info-23', 'info-24', 
+                        'info-31', 'info-32', 'info-33', 'info-34', 
+                        'info-41', 'info-42', 'info-43', 'info-44'
+                 ];
+
+var hoverFillLayers = ['hover-0', 'hover-11', 'hover-12', 'hover-13', 'hover-14', 
+                        'hover-21', 'hover-22', 'hover-23', 'hover-24', 
+                        'hover-31', 'hover-32', 'hover-33', 'hover-34', 
+                        'hover-41', 'hover-42', 'hover-43', 'hover-44'
+                 ];
+var hoverLineLayers = ['hover-line-0', 'hover-line-11', 'hover-line-12', 'hover-line-13', 'hover-line-14', 
+                 'hover-line-21', 'hover-line-22', 'hover-line-23', 'hover-line-24', 
+                 'hover-line-31', 'hover-line-32', 'hover-line-33', 'hover-line-34', 
+                 'hover-line-41', 'hover-line-42', 'hover-line-43', 'hover-line-44'
+                ];
+
 var alphaYear = 1981;
 
 function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
     var year = typeof input === 'object' ? parseInt(input.target.value) : input;
-    var origField = 'orig_hu_' + year.toString().slice(-2); // Adjusts to your naming convention
-    var minpopField = 'minpop' + (Math.floor((year - 1) / 10) * 10).toString().slice(-2); // Finds the correct decade
+    var decade = Math.floor(year / 10) % 10;
+    var lastDigit = year.toString().slice(-1);
+    var origField = 'orig_' + decade + lastDigit; 
+    var circField = 'circ_' + decade + lastDigit;
+    var minpopField = 'minpop' + (Math.floor(year / 10) * 10).toString().slice(-2);
+    var interpolation;
+    var stroke;
 
-    // Update the slider label to reflect the current year
     $('#slider-label').html('<strong>Year: ' + year + '</strong>');
 
-    // Update the map layer with the new data
     circLayers.forEach(function(cLayer) {
+        switch (decade) {
+            case 8: // 1980s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0,
+                    1, 5, 
+                    10, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 9: // 1990s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0, 
+                    1, 3,
+                    5, 30,
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 0: // 2000s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0, 
+                    1, 3,
+                    5, 30,
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 1: // 2010s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0, 
+                    1, 3,
+                    5, 30,
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 2: // 2020s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0, 
+                    1, 3,
+                    5, 30,
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            default:
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', circField]],
+                    0, 0,
+                    1, 5, 
+                    20, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];    
+                break;
+        }
+        map.setPaintProperty(cLayer, 'circle-radius', interpolation);
+        map.setPaintProperty(cLayer, 'circle-stroke-width', stroke);
+    });
+
+    msaLayer.forEach(function(cLayer) {
+        switch (decade) {
+            case 8: // 1980s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    1000, 5, 
+                    40000, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 9: // 1990s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    900, 3,
+                    100000, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 0: // 2000s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    1900, 3,
+                    200000, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 1: // 2010s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    1100, 3,
+                    300000, 30
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            case 2: // 2020s
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    2000, 3,
+                    350000, 30,
+                ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];
+                break;
+            default:
+                interpolation = [
+                    'interpolate', ['linear'], ['to-number', ['get', origField]],
+                    0, 0,
+                    1000, 5, 
+                    40000, 30
+                    ];
+                stroke = [
+                    'case',
+                    ['==', ['get', origField], 0], 0,
+                    1
+                ];    
+                break;
+            }
+        map.setPaintProperty(cLayer, 'circle-radius', interpolation);
+        map.setPaintProperty(cLayer, 'circle-stroke-width', stroke);
+    });
+
+    countyLayer.forEach(function(cLayer) {
         map.setPaintProperty(cLayer, 'circle-radius', [
-            'interpolate', ['linear'], ['get', origField],
-            1, 2, // Small circle size for small loan values
-            15, 10 // Larger circle size for larger loan values
-        ]);
+          'interpolate', ['linear'], ['to-number', ['get', origField]],
+          0, 0,
+          1000, 2, 
+          5000, 10,
+          50000, 30 
+          ]);
     });
 
     fillLayers.forEach(function(fLayer) {
         map.setPaintProperty(fLayer, 'fill-color', [
             'case',
-            ['>=', ['get', minpopField], 80], '#4C3B5A',
-            ['>=', ['get', minpopField], 50], '#9F95A7',
+            ['>=', ['to-number', ['get', minpopField]], 80], '#4C3B5A',
+            ['>=', ['to-number', ['get', minpopField]], 50], '#9F95A7',
             'transparent'
-        ]);
+        ]);   
+        map.setPaintProperty(fLayer, 'fill-outline-color', 'transparent');
+        map.setPaintProperty(fLayer, 'fill-opacity', 0.7);
     });
+
+    hoverFillLayers.forEach(function(hLayer) {
+        map.setPaintProperty(hLayer, 'fill-color', [
+            'case',
+            ['>=', ['to-number', ['get', minpopField]], 80], '#352344',
+            ['>=', ['to-number', ['get', minpopField]], 50], '#635371',
+            '#A7A7A7'
+        ]);   
+        map.setPaintProperty(hLayer, 'fill-outline-color', 'transparent');
+        map.setPaintProperty(hLayer, 'fill-opacity', 0.7);
+    });
+
+    hoverLineLayers.forEach(function(hhLayer) {
+        map.setPaintProperty(hhLayer, 'line-color', [
+            'case',
+            ['>=', ['to-number', ['get', minpopField]], 80], '#1A0927',
+            ['>=', ['to-number', ['get', minpopField]], 50], '#291539',
+            '#7A7979'
+        ]);   
+        map.setPaintProperty(hhLayer, 'line-width', 2);
+    });
+   
     updateChartForYear(year);
 }
 
