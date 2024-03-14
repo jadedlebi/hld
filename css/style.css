@@ -1,4 +1,17 @@
 body { margin: 0; padding: 0; }
+h2, h3 {
+  margin: 10px;
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1em;
+}
+p {
+  font-size: 0.85em;
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: -30px;
+}
 #map {
   position: absolute;
   top: 0;
