@@ -37,71 +37,71 @@ function addMapSources(map) {
     // HLD TRACT POLYGON SOURCES
     map.addSource("hld-0", {
         type: "vector",
-        url: "mapbox://jedlebi.4288ejea"
+        url: "mapbox://jedlebi.7uyakeap"
     });
     map.addSource("hld-11", {
         type: "vector",
-        url: "mapbox://jedlebi.6yc77zw0"
+        url: "mapbox://jedlebi.ckivzw0y"
     });
     map.addSource("hld-12", {
         type: "vector",
-        url: "mapbox://jedlebi.c8msph5h"
+        url: "mapbox://jedlebi.2kjpyx3u"
     });
     map.addSource("hld-13", {
         type: "vector",
-        url: "mapbox://jedlebi.asjw9gd3"
+        url: "mapbox://jedlebi.c1pc45fv"
     });
     map.addSource("hld-14", {
         type: "vector",
-        url: "mapbox://jedlebi.acygmt2m"
+        url: "mapbox://jedlebi.684om161"
     });
     map.addSource("hld-21", {
         type: "vector",
-        url: "mapbox://jedlebi.bvtolgh6"
+        url: "mapbox://jedlebi.6in3br79"
     });
     map.addSource("hld-22", {
         type: "vector",
-        url: "mapbox://jedlebi.0cjlv6bv"
+        url: "mapbox://jedlebi.d5554xta"
     });
     map.addSource("hld-23", {
         type: "vector",
-        url: "mapbox://jedlebi.aaqrgtfv"
+        url: "mapbox://jedlebi.2sivnefb"
     });
     map.addSource("hld-24", {
         type: "vector",
-        url: "mapbox://jedlebi.6hjfx4nu"
+        url: "mapbox://jedlebi.82k91cy0"
     });
     map.addSource("hld-31", {
         type: "vector",
-        url: "mapbox://jedlebi.anrjta64"
+        url: "mapbox://jedlebi.bc6mo3o5"
     });
     map.addSource("hld-32", {
         type: "vector",
-        url: "mapbox://jedlebi.a1wwj6lp"
+        url: "mapbox://jedlebi.80utplhf"
     });
     map.addSource("hld-33", {
         type: "vector",
-        url: "mapbox://jedlebi.6089k8yo"
+        url: "mapbox://jedlebi.0ri5zwk7"
     });
     map.addSource("hld-34", {
         type: "vector",
-        url: "mapbox://jedlebi.ah2ju266"
+        url: "mapbox://jedlebi.7a45ckzo"
     });
     map.addSource("hld-41", {
         type: "vector",
-        url: "mapbox://jedlebi.b58ghezr"
+        url: "mapbox://jedlebi.1orjtbh3"
     });
     map.addSource("hld-42", {
         type: "vector",
-        url: "mapbox://jedlebi.8808ld85"
+        url: "mapbox://jedlebi.93l13jd8"
     });
     map.addSource("hld-43", {
         type: "vector",
-        url: "mapbox://jedlebi.4tje7i23"
+        url: "mapbox://jedlebi.adhjejte"
     });
     map.addSource("hld-44", {
         type: "vector",
-        url: "mapbox://jedlebi.a1s7f4km"
+        url: "mapbox://jedlebi.1ry9e906"
     });
 
     // HLD TRACT CIRCLE SOURCES
