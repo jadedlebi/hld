@@ -1059,7 +1059,12 @@ function addMapLayers(map) {
           'circle-color': '#173B4A',
           'circle-opacity': 0.6, // Lower opacity for base circles
           'circle-stroke-width': 1, // Thin white stroke
-          'circle-stroke-color': '#ffffff'
+          'circle-stroke-color': [
+            'match', ['get', 'hri_ind'],
+            1, '#8B0000', // Red when hri_ind = 1
+            0, '#ffffff', // White when hri_ind = 0
+            '#ffffff' // Default color
+          ]
       }
   });
 
@@ -1082,7 +1087,12 @@ function addMapLayers(map) {
           'circle-color': '#173B4A',
           'circle-opacity': 0.6, // Lower opacity for base circles
           'circle-stroke-width': 1, // Thin white stroke
-          'circle-stroke-color': '#ffffff'
+          'circle-stroke-color': [
+            'match', ['get', 'hri_ind'],
+            1, '#8B0000', // Red when hri_ind = 1
+            0, '#ffffff', // White when hri_ind = 0
+            '#ffffff' // Default color
+          ]
       }
   });
 
