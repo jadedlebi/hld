@@ -55,7 +55,7 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
             } else if (hriInterval == 2) {
                 hri = "<div style='text-align: center;color:#0000FF'><b>B (" + feature.properties.hri_cont + ")</b></div>"
             } else if (hriInterval == 3) {
-                hri = "<div style='text-align: center;color:#B9B122'><b>C (" + feature.properties.hri_cont + ")</b></div>"
+                hri = "<div style='text-align: center;color:#C6BD00'><b>C (" + feature.properties.hri_cont + ")</b></div>"
             } else if (hriInterval == 4) {
                 hri = "<div style='text-align: center;color:#FF0000'><b>D (" + feature.properties.hri_cont + ")</b></div>"
             }
@@ -86,9 +86,7 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
                 medianData.push(feature.properties[medKey] || 0); 
             }
 
-            console.log("Before calling hriChartData, feature is:", feature);
             myPopup.hriChartData = function hriChartData(selectedYear, feature) {
-                console.log('hriChartData called with feature:', feature);
                 let yearSuffix = String(selectedYear).slice(-2);
                 let categories = ['A', 'B', 'C', 'D'];
                 let values = [];
@@ -96,9 +94,7 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
             
                 categories.forEach(category => {
                     let key = `hri${yearSuffix}${category.toLowerCase()}`;
-                    console.log(`Accessing key: ${key}`);
                     let value = parseInt(feature.properties[key], 10) || 0;
-                    console.log(`Value for ${key}: ${value}`);
                     if (value > 0) hasData = true;
                     values.push(value);
                 });
@@ -108,7 +104,6 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
             }       
               
             myPopup.pocChartData = function pocChartData(selectedYear, feature) {
-                console.log('pocChartData called with feature:', feature);
                 let yearSuffix = String(selectedYear).slice(-2);
                 let categories = ['A', 'B', 'C']; // Use uppercase for display purposes
                 let values = ['Originations']; // First element as the series name (optional)
@@ -122,9 +117,7 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
             }
             
             var hriData = myPopup.hriChartData(alphaYear, feature);
-            console.log(hriData);
             var pocData = myPopup.pocChartData(alphaYear, feature);
-            console.log(pocData);
             
             uniqueId1 = 'origChart-' + Date.now(); 
             uniqueId2 = 'hriChart-' + Date.now();
