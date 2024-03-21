@@ -3,15 +3,11 @@ function updateChartForYear(alphaYear, feature) {
     var highlightColor = '#8F98A8'; // Dark gray for the selected year
     var defaultColor = '#E5E6E8'; // Light gray for non-selected years
 
-    // Reset bars in the Median series to the default color first
     d3.selectAll('.c3-bars-Median .c3-bar').style('fill', defaultColor);
-    // Highlight the bar for the selected year in the Median series
     d3.select('.c3-bars-Median .c3-bar-' + yearIndex).style('fill', highlightColor);
-    // Reset styles for all points by setting radius to default and removing custom styles
     d3.selectAll('.c3-circle').attr('r', 2.5)
                               .style('stroke', '')
                               .style('stroke-width', '');
-    // Highlight the circle (data point) for the selected year
     d3.selectAll('.c3-circles .c3-circle-' + yearIndex)
       .each(function() {
           d3.select(this)
@@ -31,5 +27,23 @@ function updateChartForYear(alphaYear, feature) {
         generateChart3(pocData, '#' + uniqueId3);
     } else {
         console.error('POC data is not available for this metro area or feature is invalid.');
+    }
+
+    // Determine the minpop field name based on the selected year
+    var decade = Math.floor(alphaYear / 10) * 10; // This will round down to the nearest decade
+    var minpopFieldKey = 'minpop' + String(decade).slice(-2); // Use the last two digits of the decade
+    var minpopValue = decimalRound(feature.properties[minpopFieldKey]);
+    var minpopFieldElement = document.getElementById('minpopField');
+    if (minpopFieldElement) {
+        if (minpopValue) {
+            var formattedValue = decimalRound(minpopValue) + '%';
+            var color = minpopValue < 50 ? '#A7A7A7' :
+                        minpopValue >= 50 && minpopValue < 80 ? '#9766BF' : '#2E0B4A';
+            minpopFieldElement.innerHTML = `<span style="color: ${color};">${formattedValue}</span>`;
+        } else {
+            minpopFieldElement.textContent = 'Data not available';
+        }
+    } else {
+        console.error('No element with id `minpopField` found in the popup.');
     }
 }
