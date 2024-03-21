@@ -36,17 +36,6 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
                 place = "<div style='text-align: center;font-size:20px;'><b>" + feature.properties.place + " (" + feature.properties.county + ")</b></div>"
             }
             var tract = "<div style='text-align: center;font-size:15px;'><b>Tract ID: " + feature.properties.geoid10 + "</b></div>";
-            if (alphaYear < 1990) {
-                minPop = "<div style='text-align: center;'><b>" + decimalRound(feature.properties.minpop80) + "%</b></div>"
-            } else if (alphaYear >= 1990 || alphaYear < 2000) {
-                minPop = "<div style='text-align: center;'><b>" + decimalRound(feature.properties.minpop90) + "%</b></div>"
-            } else if (alphaYear >= 2000 || alphaYear < 2010) {
-                minPop = "<div style='text-align: center;'><b>" + decimalRound(feature.properties.minpop00) + "%</b></div>"
-            } else if (alphaYear >= 2010 || alphaYear < 2020) {
-                minPop = "<div style='text-align: center;'><b>" + decimalRound(feature.properties.minpop10) + "%</b></div>"
-            } else if (alphaYear >= 2020) {
-                minPop = "<div style='text-align: center;'><b>" + decimalRound(feature.properties.minpop20) + "%</b></div>"
-            }
             var hriInterval = feature.properties.hri_int;
             if (hriInterval == 0) {
                 hri = "<div style='text-align: center;'><b>N/A</b></div>"
@@ -70,8 +59,8 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
                         "<th style='width:60%;text-align:center'>" + 
                             hri +
                         "</th>" +
-                        "<th style='width:40%;text-align:center'>" + 
-                            minpopField +
+                        "<th id='minpopField' style='width:40%;text-align:center'>" + 
+                            "Loading..." + // This will be updated dynamically
                         "</th>" +
                     "</tr>" +
                 "</table>";
