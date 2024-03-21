@@ -38,12 +38,14 @@
   <script src="js/zoom.js"></script>
   <script src="js/click.js"></script>
   <script src="js/chart1.js"></script>
+  <script src="js/chart2.js"></script>
+  <script src="js/chart3.js"></script>
   <script src="js/updateCharts.js"></script>
   <script src="js/hover.js"></script>
   <script src="js/slider.js"></script>
   <script>
       initializeMap(map);
-      map.on('load', function() {        
+      map.on('load', function() {       
         getImages(map);
         addMapSources(map);
         addMapLayers(map);
@@ -51,8 +53,10 @@
         zoomEvent(map, tractLayers);
         clickEvent(map, fillLayers, popupOffsets, alphaYear);
         // Included Functions:
-            // chart1.js - generateChart1(dataColumns, uniqueId);
-            // updateCharts.js - updateChartForYear(selectedYear);
+            // chart1.js - generateChart1([originationData[0], originationData[1], medianData], '#' + uniqueId1);
+            // chart2.js - generateChart2(hriData, '#' + uniqueId2);
+            // chart3.js - generateChart3(hriData, '#' + uniqueId3);
+            // updateCharts.js - updateChartForYear(alphaYear);
         hoverEvents(map, hoverLayers, fillLayers);
       });
     </script>
