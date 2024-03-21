@@ -123,3 +123,42 @@ p {
   fill: #ffff00; /* Yellow fill */
   /* r: 5px; Increase the radius */
 }
+.tabs {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Space out buttons evenly */
+  width: 100%; /* Full width of the parent container */
+  margin: 0; /* Reset any default margins */
+  padding: 0; /* Reset any default padding */
+}
+
+.tablinks {
+  flex-grow: 1; /* Grow to fill the container */
+  text-align: center; /* Center the text inside the button */
+  background-color: #f1f1f1;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: 0.3s;
+}
+
+.tablinks:hover {
+  background-color: #ddd;
+}
+
+.tablinks.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: visivle; /* Set to none to hide by default, use JavaScript to show */
+  padding: 6px 12px;
+  border: none;
+}
+
+#hriChart .c3-bars path {
+  transform: translateX(-9px); /* Adjust the pixel value as needed */
+}
+#pocChart .c3-bars path {
+  transform: translateX(-12px); /* Adjust the pixel value as needed */
+}
