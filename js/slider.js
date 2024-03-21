@@ -254,6 +254,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
     updateChartForYear(year);
 }
 
+
 // Assuming jQuery is used and is included before this script
 $(document).ready(function() {
     var intervalId; // Play button on slider
@@ -279,7 +280,7 @@ $(document).ready(function() {
                     $('#play-button').text('▶');
                 } else {
                     $('#slider').val(currentValue).trigger('input');
-                    alphaYear = currentValue; // Update the global alphaYear
+                    alphaYear = currentValue; 
                 }
             }, 500);
 
@@ -289,7 +290,14 @@ $(document).ready(function() {
 
     $('#slider').on('input change', function() {
         var year = parseInt($(this).val());
-        alphaYear = year; // Update the global alphaYear
+        alphaYear = year;
+        console.log("Current feature before updateChartForYear:", feature);
+        if (feature) {
+            updateChartForYear(alphaYear, feature);
+        } else {
+            console.log("No feature selected. Cannot update charts.");
+            // Optionally handle this scenario by informing the user or choosing a default action
+        }
         updateMap(map, circLayers, fillLayers, year, updateChartForYear);
     });
 });
