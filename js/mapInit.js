@@ -10,7 +10,7 @@ function initializeMap() {
         name: 'mercator'
     },
     center: [-96, 37.8],
-    zoom: 3.8
+    zoom: 4
   });
 
   // Add a search bar to the map.
