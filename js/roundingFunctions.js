@@ -1,10 +1,18 @@
-// Round values to nearest whole integer and include thousand seperators.
 function round(num) {
-  return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-  // console.log((typeof num).concat(', ', num))
-  // return num
+  var number = parseFloat(num);
+  if (!isNaN(number)) {
+    return number.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  } else {
+    console.error("Invalid number for rounding: ", num);
+    return num; // Or handle the error as appropriate
+  }
 }
-// // Round values to nearest second decimal and include thousand seperators.
 function decimalRound(num) {
-  return num.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  var number = parseFloat(num);
+  if (!isNaN(number)) {
+    return number.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  } else {
+    console.error("Invalid number for rounding: ", num);
+    return num; // Or handle the error as appropriate
+  }
 }
