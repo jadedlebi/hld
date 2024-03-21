@@ -152,7 +152,7 @@ p {
   border: none;
 }
 #hriChart .c3-bars path {
-  transform: translateX(-9px); /* Adjust the pixel value as needed */
+  transform: translateX(-17px); /* Adjust the pixel value as needed */
 }
 #pocChart .c3-bars path {
   transform: translateX(-12px); /* Adjust the pixel value as needed */
