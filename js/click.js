@@ -152,12 +152,24 @@ function clickEvent(map, fillLayers, popupOffsets, alphaYear) {
                     <div id="${uniqueId3}">` + pocPopup + `</div>
                     </div>
                 </div>`;
+            var toggleButton = `
+                <div id="toggleButton" onclick="toggleChartsDisplay()" style="cursor: pointer; user-select: none; display: flex; align-items: center;">
+                    <div id="triangle" class="triangle-right" style="margin-right: 5px;"></div>
+                    <span id="toggleText">Show Area Statistics</span>
+                </div>`;
+            var chartsContainer = 
+                `<div id="chartsContainer" style="display: none;">
+                    ${cbsa}
+                    <div style="font-style: italic; text-align: center; margin-top: -10px;">Area Statistics</div>
+                    ${tabCharts}
+                </div>`;
             popup = new mapboxgl.Popup({ offset: popupOffsets, maxWidth: "350px" })
                 .setLngLat(e.lngLat)
                 .setHTML( 
                     place + tract + minhri + 
-                    origPopup +
-                    cbsa + "<div style=font-style:italic;text-align:center;margin-top:-10px;>Area Statistics</div>" + tabCharts
+                    origPopup + 
+                    toggleButton + 
+                    chartsContainer
                 )
                 .addTo(map);
             generateChart1([originationData[0], originationData[1], medianData], '#' + uniqueId1);
@@ -192,3 +204,19 @@ function openChart(evt, chartName) {
 document.addEventListener('DOMContentLoaded', function() {
 openChart(event, 'hriChart');
 });
+
+function toggleChartsDisplay() {
+    var chartsContainer = document.getElementById('chartsContainer');
+    var triangle = document.getElementById('triangle');
+    var toggleText = document.getElementById('toggleText');
+    
+    if (chartsContainer.style.display === "none") {
+        chartsContainer.style.display = "block";
+        triangle.className = "triangle-down"; // Set to triangle pointing down
+        toggleText.innerText = "Hide Area Statistics";
+    } else {
+        chartsContainer.style.display = "none";
+        triangle.className = "triangle-right"; // Set to triangle pointing right
+        toggleText.innerText = "Show Area Statistics";
+    }
+}
