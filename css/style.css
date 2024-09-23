@@ -1,23 +1,115 @@
-body { margin: 0; padding: 0; }
+body {
+  margin: 0;
+  padding: 0;
+}
+
 h2, h3 {
   margin: 10px;
   font-size: 1.4em;
+  text-align: center;
 }
+
 h3 {
   font-size: 1em;
 }
+
 p {
   font-size: 0.85em;
   text-align: left;
   margin-top: -5px;
   margin-bottom: -30px;
 }
+
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
 }
+
+.collapsible-legend {
+  background-color: white;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  position: fixed;
+  bottom: 160px;
+  right: 11px;
+  z-index: 1;
+}
+
+.legend-content.collapsed {
+  display: none;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend span {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.legend-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red {
+  border: 2px #8B0000;
+  background-color: #173B4A;
+  opacity: 0.7;
+}
+
+.white {
+  border: 2px solid white;
+  background-color: #173B4A;
+  opacity: 0.7;
+}
+
+.legend-color.a {
+  background-color: #008000;
+}
+
+.legend-color.b {
+  background-color: #0000FF;
+}
+
+.legend-color.c {
+  background-color: #FFFF00;
+}
+
+.legend-color.d {
+  background-color: #FF0000;
+}
+
+.legend-color.min50-80 {
+  background-color: #9F95A7;
+}
+
+.legend-color.min80 {
+  background-color: #4C3B5A;
+}
+
+.legend-toggle {
+  background: #034ea0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
 .slider {
   position: absolute;
   bottom: 20px;
@@ -25,68 +117,94 @@ p {
   right: 10px;
   z-index: 1;
 }
+
 #logo {
-    position: absolute;
-    border-radius: 3px;
-    bottom: 30px;
-    left: 20px;
-    width: 2px;
-    opacity: 80%;
+  position: fixed;
+  bottom: -15px;
+  left: 100px;
+  opacity: 80%;
 }
+
 .map-overlay {
-    position: fixed;
-    right: 20px;
-    bottom: 100px;
-    height: 95px;
-    background-color: rgba(255, 255, 255, .9);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: black;
-    padding: 2px;
-    z-index: 1;
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  height: 95px;
+  background-color: rgba(255, 255, 255, 0);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: black;
+  padding: 2px;
+  z-index: 1;
 }
+
 .map-overlay .map-overlay-inner {
-    background-color: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    padding: 10px;
-    margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  height: 100px;
 }
+
 .map-overlay h2 {
-    line-height: 24px;
-    display: block;
-    margin: 0 0 10px;
+  line-height: 24px;
+  display: block;
+  margin: 0 0 10px;
 }
+
 .map-overlay .legend .bar {
-    height: 10px;
-    width: 100%;
-    background: linear-gradient(to right, #fca107, #7f3121);
+  height: 10px;
+  width: 100%;
+  background: linear-gradient(to right, #fca107, #7f3121);
 }
+
 .map-overlay input {
-    background-color: transparent;
-    display: inline-block;
-    width: 100%;
-    position: relative;
-    margin: 0;
-    cursor: ew-resize;
+  background-color: transparent;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  cursor: ew-resize;
 }
+
 .mapboxgl-popup {
-    max-width: 100px;
-    font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  max-width: none;
+  width: auto;
+  font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
+
 #slider {
-    width: 100%;
+  position: fixed;
+  width: 225px;
+  margin-top: -37px;
+  margin-left: 32px;
 }
+
 #slider-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 #play-button {
-  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #034ea0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 90%;
   margin-bottom: 2%;
+  transition: background-color 0.1s, border-color 0.1s;
 }
+
+#play-button:hover {
+  background-color: #d3d3d3;
+  border-color: #034ea0;
+}
+
 #slider-labels-container {
   display: flex;
   justify-content: space-between;
@@ -94,45 +212,87 @@ p {
   max-width: 400px;
   margin-top: 10px;
 }
+
 .slider-label {
   font-size: 14px;
+  margin-left: 25px;
+  font-size: 40px;
+  position: fixed;
+  top: 90px;
   color: #666;
+  padding: 5px;
+  border-radius: 7px;
+  background-color: white;
 }
-.slider-label.active {
-  font-weight: bold;
-  color: #333;
-}
+
 #labels-container {
   display: flex;
   justify-content: space-between;
   width: 80%;
   margin-top: 10px;
 }
+
 .label {
   width: 19%;
   text-align: center;
   font-size: 12px;
   color: #999;
 }
+
 .active {
   color: #000;
 }
+
 .highlighted-point {
-  stroke: #ff0000; /* Red stroke */
-  stroke-width: 2px; /* Make the stroke wider */
-  fill: #ffff00; /* Yellow fill */
-  /* r: 5px; Increase the radius */
+  stroke: #ff0000;
+  stroke-width: 2px;
+  fill: #ffff00;
 }
+
+.tab {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  display: flex;
+  width: 100%;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
 .tabs {
-  display: flex; /* Use flexbox layout */
-  justify-content: center; /* Space out buttons evenly */
-  width: 100%; /* Full width of the parent container */
-  margin: 0; /* Reset any default margins */
-  padding: 0; /* Reset any default padding */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
+
 .tablinks {
-  flex-grow: 1; /* Grow to fill the container */
-  text-align: center; /* Center the text inside the button */
+  flex-grow: 1;
+  text-align: center;
   background-color: #f1f1f1;
   border: none;
   outline: none;
@@ -140,29 +300,27 @@ p {
   padding: 10px 20px;
   transition: 0.3s;
 }
+
 .tablinks:hover {
   background-color: #ddd;
 }
+
 .tablinks.active {
   background-color: #ccc;
 }
-.tabcontent {
-  display: visivle; /* Set to none to hide by default, use JavaScript to show */
-  padding: 6px 12px;
-  border: none;
-}
-#hriChart .c3-bars path {
-  transform: translateX(-17px); /* Adjust the pixel value as needed */
-}
+
+#hriChart .c3-bars path,
 #pocChart .c3-bars path {
-  transform: translateX(-12px); /* Adjust the pixel value as needed */
+  transform: translateX(-5px); /* Adjust to center the bars */
 }
+
 #toggleButton {
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: gray; /* Set the color of the text and triangle to gray */
+  color: gray;
 }
+
 .triangle-right,
 .triangle-down {
   display: inline-block;
@@ -172,12 +330,14 @@ p {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
+
 .triangle-right {
-  border-left: 5px solid gray; /* Triangle pointing right */
+  border-left: 5px solid gray;
 }
+
 .triangle-down {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: none;
-  border-top: 5px solid gray; /* Triangle pointing down */
+  border-top: 5px solid gray;
 }
