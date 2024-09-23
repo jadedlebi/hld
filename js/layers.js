@@ -43,7 +43,8 @@ function addMapLayers(map) {
       ],
       "fill-outline-color": "transparent",
       "fill-opacity": 0.7
-    }
+    },
+    filter: ['!=', ['get', 'geoid10'], '']
   });
   map.addLayer({
     id: "info-11",
@@ -371,7 +372,8 @@ function addMapLayers(map) {
       ],
       "fill-outline-color": "transparent",
       "fill-opacity": 0.7
-    }
+    },
+    filter: ['!=', ['get', 'geoid10'], '']
   });
   map.addLayer({
     id: "hover-11",
@@ -723,7 +725,8 @@ function addMapLayers(map) {
         '#7A7979' 
       ],
       "line-width": 2
-    }
+    },
+    filter: ['!=', ['get', 'geoid10'], '']
   });
   map.addLayer({
     id: "hover-line-11",
@@ -1058,14 +1061,15 @@ function addMapLayers(map) {
             ],
           'circle-color': '#173B4A',
           'circle-opacity': 0.6, // Lower opacity for base circles
-          'circle-stroke-width': 1, // Thin white stroke
+          'circle-stroke-width': 1.5, // Thin white stroke
           'circle-stroke-color': [
             'match', ['get', 'hri_ind'],
             1, '#8B0000', // Red when hri_ind = 1
-            0, '#ffffff', // White when hri_ind = 0
+            0, '#D8D9D9', // Gray when hri_ind = 0
             '#ffffff' // Default color
           ]
-      }
+      },
+      filter: ['!in', 'ORIG_FID', 988, 594, 593, 210, 207]
   });
 
   // COUNTY CIRCLE LAYER
@@ -1081,16 +1085,16 @@ function addMapLayers(map) {
           'circle-radius': [
             'interpolate', ['linear'], ['to-number', ['get', 'orig_81']],
             0, 0,
-            1000, 2, 
+            1000, 5, 
             10000, 20 
             ],
           'circle-color': '#173B4A',
           'circle-opacity': 0.6, // Lower opacity for base circles
-          'circle-stroke-width': 1, // Thin white stroke
+          'circle-stroke-width': 2, // Thin white stroke
           'circle-stroke-color': [
             'match', ['get', 'hri_ind'],
             1, '#8B0000', // Red when hri_ind = 1
-            0, '#ffffff', // White when hri_ind = 0
+            0, '#D8D9D9', // Gray when hri_ind = 0
             '#ffffff' // Default color
           ]
       }
