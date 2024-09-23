@@ -1,6 +1,6 @@
 function getImages(map) {
     document.getElementById('logo').innerHTML = 
-        "<img src='https://raw.githubusercontent.com/jadedlebi/hld/main/images/ncrc-logo.png' style='width:200px; height:auto;'>";
+        "<img src='https://raw.githubusercontent.com/jadedlebi/hld/main/images/ncrc-logo.png' style='width:90px; height:auto;'>";
 
     const hatches = [
         "https://raw.githubusercontent.com/jadedlebi/hld/main/images/grade-a.png",
