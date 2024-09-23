@@ -17,19 +17,21 @@
 <body>
   <div id='map'></div>
   <div class="map-overlay top">
-    <div class="map-overlay-inner">
+    <div class="map-overlay-inner" style="position:fixed; right: 20px; bottom:40px;">
       <h2>HMDA Longitudinal Dataset<br/>(1981 - 2021)</h2>
       <div id="slider-container">
         <button id="play-button">▶</button>
-        <div id="slider-label" style="position: absolute; top: 90px;"><strong>Year: 1981</strong></div>
+        <div id="slider-label" style="box-shadow:2px; padding:5px; border-radius:7px; background-color:white; right: 220px; font-size: 30px; position: fixed; bottom: 170px;"><strong>1981</strong></div>
         <div id="slider-labels-container">
             <input id="slider" type="range" min="1981" max="2021" value="1981" step="1">
         </div>
+        <div id="slider-text" style="font-size:11px; font-style:italic; bottom:51px; right:32px; position:fixed;">Use the slider to navigate between each year.</div>
       </div>
     </div>
   </div>
   <pre id="logo"></pre>
   <script src="js/mapInit.js"></script>
+  <script src="js/legends.js"></script>
   <script src="js/images.js"></script>
   <script src="js/sources.js"></script>
   <script src="js/layers.js"></script>
@@ -37,15 +39,16 @@
   <script src="js/roundingFunctions.js"></script>
   <script src="js/zoom.js"></script>
   <script src="js/click.js"></script>
+  <script src="js/slider.js"></script>
   <script src="js/chart1.js"></script>
   <script src="js/chart2.js"></script>
   <script src="js/chart3.js"></script>
+  <script src="js/chart4.js"></script>
   <script src="js/updateCharts.js"></script>
   <script src="js/hover.js"></script>
-  <script src="js/slider.js"></script>
   <script>
       initializeMap(map);
-      map.on('load', function() {       
+      map.on('load', function() {    
         getImages(map);
         addMapSources(map);
         addMapLayers(map);
@@ -56,7 +59,8 @@
             // chart1.js - generateChart1([originationData[0], originationData[1], medianData], '#' + uniqueId1);
             // chart2.js - generateChart2(hriData, '#' + uniqueId2);
             // chart3.js - generateChart3(hriData, '#' + uniqueId3);
-            // updateCharts.js - updateChartForYear(alphaYear);
+            // chart4.js - generateMinpopChart('#' + uniqueId4, feature);
+            // updateCharts.js - updateChartForYear(currentYear, currentFeature);
         hoverEvents(map, hoverLayers, fillLayers);
       });
     </script>
