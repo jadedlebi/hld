@@ -1,9 +1,16 @@
 function generateChart3(dataColumns, uniqueId3) {
+    // Check if dataColumns is null, undefined, or not formatted as expected
+    if (!dataColumns || !Array.isArray(dataColumns) || dataColumns.length === 0 || !Array.isArray(dataColumns[0])) {
+        console.error('Invalid dataColumns format:', dataColumns);
+        return; // Exit function if dataColumns is not correctly formatted
+    }
+
     var categoryColors = [
         'rgba(179, 176, 181, 0.6)', // Gray with opacity for "Below 50%"
-        'rgba(99, 83, 113, 0.6)',  // Light purple with opacity for "50 - 80%"
-        'rgba(53, 35, 68, 0.6)', // Dark purple with opacity for "Above 80%"
+        'rgba(99, 83, 113, 0.7)',  // Light purple with opacity for "50 - 80%"
+        'rgba(53, 35, 68, 0.8)', // Dark purple with opacity for "Above 80%"
     ];
+
     var chart = c3.generate({
         bindto: uniqueId3,
         size: { width: 300, height: 200 },
@@ -15,7 +22,7 @@ function generateChart3(dataColumns, uniqueId3) {
                     return categoryColors[d.index]; // Apply color based on index
                 }
                 return color; // Default color
-            }                  
+            }
         },
         axis: {
             x: {
@@ -23,55 +30,49 @@ function generateChart3(dataColumns, uniqueId3) {
                 tick: { rotate: 0 },
                 categories: ['Below 50%', '50 - 80%', 'Above 80%']
             },
-            y: { show: false }
+            y: { show: false } // Hide the y-axis
         },
         bar: {
-            width: {
-                ratio: 0.5 // Adjust this value to make bars thinner or wider
-            },
+            width: { ratio: 1 },  // Widen bars to 1 for a fuller appearance
+            space: 0.2, // Add space between bars
             centered: true,
         },
         tooltip: {
             format: {
                 value: function (value, ratio, id, index) {
-                  // Your value formatting
-                  return value;
+                    return value;
                 }
             },
             contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-              // Map the index positions to the correct category names.
-              var categoryNames = {
-                  0: 'Below 50%',
-                  1: '50 - 80%',
-                  2: 'Above 80%',
-              };
-      
-              // Start the tooltip HTML.
-              var html = '<table class="c3-tooltip"><tbody>';
-      
-              // Iterate over the data points to create tooltip entries.
-              d.forEach(function (data) {
-                  // The category index should correspond to the order of the categories.
-                  var categoryName = categoryNames[data.index];
-      
-                  // Get the value for the tooltip.
-                  var value = defaultValueFormat(data.value, data.ratio, data.id, data.index);
-      
-                  // Generate the HTML for the tooltip row.
-                  html += `<tr class="c3-tooltip-name-${data.id}">
-                              <td class="name">${categoryName}</td>
-                              <td class="value">${value}</td>
-                          </tr>`;
-              });
-      
-              // Close the tooltip HTML.
-              html += '</tbody></table>';
-      
-              return html;
-          }
+                var categoryNames = {
+                    0: 'Below 50%',
+                    1: '50 - 80%',
+                    2: 'Above 80%',
+                };
+                var html = '<table class="c3-tooltip"><tbody>';
+                d.forEach(function (data) {
+                    var categoryName = categoryNames[data.index];
+                    var value = defaultValueFormat(data.value, data.ratio, data.id, data.index);
+                    html += `<tr class="c3-tooltip-name-${data.id}">
+                                <td class="name">${categoryName}</td>
+                                <td class="value">${value}</td>
+                            </tr>`;
+                });
+                html += '</tbody></table>';
+                return html;
+            }
         },
         transition: { duration: 500 },
-        padding: { bottom: 40, right: 20 },
-        legend: { show: false }
+        padding: { bottom: 0, right: 0 },
+        legend: { show: false },
+
+        // Shift the bars to the left after rendering
+        onrendered: function () {
+            // Select all bars and shift them to the left by 25 pixels
+            d3.selectAll(`${uniqueId3} .c3-chart-bars .c3-bar`).each(function() {
+                var bar = d3.select(this);
+                bar.attr('transform', 'translate(-25, 0)');  // Translate the bars 25px to the left
+            });
+        }
     });
 }
