@@ -4,7 +4,11 @@ function generateChart1(dataColumns, uniqueId) {
     size: { width: 300, height: 200 },
     onmouseover: function (data) {
       // When hovering, re-apply the highlighting based on `currentYear`
-      updateChartForYear(dataColumns, uniqueId);
+      try {
+        updateChartForYear(currentYear, currentFeature);
+      } catch (error) {
+        console.error("Error updating chart for year", error);
+      }
     },
     onmouseout: function (data) {
       // Optional: Handle any style reversion on mouse out
@@ -38,6 +42,9 @@ function generateChart1(dataColumns, uniqueId) {
           }
         },
         categories: Array.from({length: 41}, (_, i) => 1981 + i)
+      },
+      y: {
+        show: false, // Hide y-axis
       }
     },
     transition: {
@@ -56,7 +63,7 @@ function generateChart1(dataColumns, uniqueId) {
     point: {
       show: function(d) { return d.id !== 'Median'; } // Hide points only for 'Median'
     },
-    padding: { bottom: 40, right: 20 },
+    padding: { bottom: 0, right: 10, left: 10 },
     legend: { show: false }
   });
 }
