@@ -21,29 +21,13 @@ function updateChartForYear(alphaYear, feature) {
         generateChart2(hriData, '#' + uniqueId2);
     } else {
         document.getElementById(uniqueId2).innerHTML = '<div style="font-style: italic; text-align: center;">HRI data is not available for this metro area.</div>';
+        console.warn("No HRI data available for the selected year:", alphaYear);
     }
     var pocData = myPopup.pocChartData(alphaYear, feature);
     if (pocData) {
         generateChart3(pocData, '#' + uniqueId3);
     } else {
-        console.error('POC data is not available for this metro area or feature is invalid.');
-    }
-
-    // Determine the minpop field name based on the selected year
-    var decade = Math.floor(alphaYear / 10) * 10; // This will round down to the nearest decade
-    var minpopFieldKey = 'minpop' + String(decade).slice(-2); // Use the last two digits of the decade
-    var minpopValue = decimalRound(feature.properties[minpopFieldKey]);
-    var minpopFieldElement = document.getElementById('minpopField');
-    if (minpopFieldElement) {
-        if (minpopValue) {
-            var formattedValue = decimalRound(minpopValue) + '%';
-            var color = minpopValue < 50 ? '#A7A7A7' :
-                        minpopValue >= 50 && minpopValue < 80 ? '#9766BF' : '#2E0B4A';
-            minpopFieldElement.innerHTML = `<span style="color: ${color};">${formattedValue}</span>`;
-        } else {
-            minpopFieldElement.textContent = 'Data not available';
-        }
-    } else {
-        console.error('No element with id `minpopField` found in the popup.');
+        document.getElementById(uniqueId3).innerHTML = '<div style="font-style: italic; text-align: center;">POC data is not available for this metro area.</div>';
+        console.warn("No POC data available for the selected year:", alphaYear);
     }
 }
