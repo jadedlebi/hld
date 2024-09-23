@@ -14,65 +14,65 @@ var tractLayers = ['hover-0', 'hover-11', 'hover-12', 'hover-13', 'hover-14',
                   ];
 
 function zoomEvent(map, tractLayers) {
-    map.on('zoom', () => {
-        var zoomLevel = map.getZoom();
-        if (zoomLevel < 4) {
-            map.setLayoutProperty('msa-circle', 'visibility', 'none');
-            map.setLayoutProperty('msa', 'visibility', 'none');
-            map.setLayoutProperty('county-circle', 'visibility', 'none');
-            map.setLayoutProperty('county', 'visibility', 'none');
-            map.setLayoutProperty('holc-id', 'visibility', 'none');
-            map.setLayoutProperty('holc-outline', 'visibility', 'none');
-            map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
-            tractLayers.forEach(function(layer) {
-              map.setLayoutProperty(layer, 'visibility', 'none');
-            });
-        }
-        else if (zoomLevel >= 4 && zoomLevel < 5.5) {
-            map.setLayoutProperty('msa-circle', 'visibility', 'visible');
-            map.setLayoutProperty('msa', 'visibility', 'visible');
-            map.setLayoutProperty('county-circle', 'visibility', 'none');
-            map.setLayoutProperty('county', 'visibility', 'none');
-            map.setLayoutProperty('holc-id', 'visibility', 'none');
-            map.setLayoutProperty('holc-outline', 'visibility', 'none');
-            map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
-            tractLayers.forEach(function(layer) {
-              map.setLayoutProperty(layer, 'visibility', 'none');
-            });
-        } else if (zoomLevel >= 5.5 && zoomLevel < 9) {
-            map.setLayoutProperty('msa-circle', 'visibility', 'none');
-            map.setLayoutProperty('msa', 'visibility', 'none');
-            map.setLayoutProperty('county-circle', 'visibility', 'visible');
-            map.setLayoutProperty('county', 'visibility', 'visible');
-            map.setLayoutProperty('holc-id', 'visibility', 'none');
-            map.setLayoutProperty('holc-outline', 'visibility', 'none');
-            map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
-            tractLayers.forEach(function(layer) {
-              map.setLayoutProperty(layer, 'visibility', 'none');
-            });
-        } else if (zoomLevel >= 9 && zoomLevel < 12.5) {
-            map.setLayoutProperty('msa-circle', 'visibility', 'none');
-            map.setLayoutProperty('msa', 'visibility', 'none');
-            map.setLayoutProperty('county-circle', 'visibility', 'none');
-            map.setLayoutProperty('county', 'visibility', 'none');
-            map.setLayoutProperty('holc-id', 'visibility', 'visible');
-            map.setLayoutProperty('holc-outline', 'visibility', 'visible');
-            map.setLayoutProperty('road-street-low', 'visibility', 'none');
-            map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'visible');
-            tractLayers.forEach(function(layer) {
-              map.setLayoutProperty(layer, 'visibility', 'visible');
-            });
-        } else {
-            map.setLayoutProperty('msa-circle', 'visibility', 'none');
-            map.setLayoutProperty('msa', 'visibility', 'none');
-            map.setLayoutProperty('county-circle', 'visibility', 'none');
-            map.setLayoutProperty('county', 'visibility', 'none');
-            map.setLayoutProperty('holc-id', 'visibility', 'visible');
-            map.setLayoutProperty('holc-outline', 'visibility', 'visible');
-            map.setLayoutProperty('road-street-low', 'visibility', 'visible');
-            tractLayers.forEach(function(layer) {
-              map.setLayoutProperty(layer, 'visibility', 'visible');
-            });
-        }
+  map.on('zoom', () => {
+    var zoomLevel = map.getZoom();
+    if (zoomLevel < 4) {
+        map.setLayoutProperty('msa-circle', 'visibility', 'none');
+        map.setLayoutProperty('msa', 'visibility', 'none');
+        map.setLayoutProperty('county-circle', 'visibility', 'none');
+        map.setLayoutProperty('county', 'visibility', 'none');
+        map.setLayoutProperty('holc-id', 'visibility', 'none');
+        map.setLayoutProperty('holc-outline', 'visibility', 'none');
+        map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
+        tractLayers.forEach(function(layer) {
+          map.setLayoutProperty(layer, 'visibility', 'none');
+        });
+    }
+    else if (zoomLevel >= 4 && zoomLevel < 5.5) {
+        map.setLayoutProperty('msa-circle', 'visibility', 'visible');
+        map.setLayoutProperty('msa', 'visibility', 'visible');
+        map.setLayoutProperty('county-circle', 'visibility', 'none');
+        map.setLayoutProperty('county', 'visibility', 'none');
+        map.setLayoutProperty('holc-id', 'visibility', 'none');
+        map.setLayoutProperty('holc-outline', 'visibility', 'none');
+        map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
+        tractLayers.forEach(function(layer) {
+          map.setLayoutProperty(layer, 'visibility', 'none');
+        });
+    } else if (zoomLevel >= 5.5 && zoomLevel < 9) {
+        map.setLayoutProperty('msa-circle', 'visibility', 'none');
+        map.setLayoutProperty('msa', 'visibility', 'none');
+        map.setLayoutProperty('county-circle', 'visibility', 'visible');
+        map.setLayoutProperty('county', 'visibility', 'visible');
+        map.setLayoutProperty('holc-id', 'visibility', 'none');
+        map.setLayoutProperty('holc-outline', 'visibility', 'none');
+        map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'none');
+        tractLayers.forEach(function(layer) {
+          map.setLayoutProperty(layer, 'visibility', 'none');
+        });
+    } else if (zoomLevel >= 9 && zoomLevel < 12.5) {
+        map.setLayoutProperty('msa-circle', 'visibility', 'none');
+        map.setLayoutProperty('msa', 'visibility', 'none');
+        map.setLayoutProperty('county-circle', 'visibility', 'none');
+        map.setLayoutProperty('county', 'visibility', 'none');
+        map.setLayoutProperty('holc-id', 'visibility', 'visible');
+        map.setLayoutProperty('holc-outline', 'visibility', 'visible');
+        map.setLayoutProperty('road-street-low', 'visibility', 'none');
+        map.setLayoutProperty('road-secondary-tertiary', 'visibility', 'visible');
+        tractLayers.forEach(function(layer) {
+          map.setLayoutProperty(layer, 'visibility', 'visible');
+        });
+    } else {
+        map.setLayoutProperty('msa-circle', 'visibility', 'none');
+        map.setLayoutProperty('msa', 'visibility', 'none');
+        map.setLayoutProperty('county-circle', 'visibility', 'none');
+        map.setLayoutProperty('county', 'visibility', 'none');
+        map.setLayoutProperty('holc-id', 'visibility', 'visible');
+        map.setLayoutProperty('holc-outline', 'visibility', 'visible');
+        map.setLayoutProperty('road-street-low', 'visibility', 'visible');
+        tractLayers.forEach(function(layer) {
+          map.setLayoutProperty(layer, 'visibility', 'visible');
+        });
+    }
     });
 }
