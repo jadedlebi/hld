@@ -37,7 +37,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
     var interpolation;
     var stroke;
 
-    $('#slider-label').html('<strong>Year: ' + year + '</strong>');
+    $('#slider-label').html('<strong>' + year + '</strong>');
 
     circLayers.forEach(function(cLayer) {
         switch (decade) {
@@ -136,7 +136,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];
                 break;
             case 9: // 1990s
@@ -149,7 +149,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];
                 break;
             case 0: // 2000s
@@ -162,7 +162,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];
                 break;
             case 1: // 2010s
@@ -175,7 +175,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];
                 break;
             case 2: // 2020s
@@ -188,7 +188,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];
                 break;
             default:
@@ -201,7 +201,7 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
                 stroke = [
                     'case',
                     ['==', ['get', origField], 0], 0,
-                    1
+                    1.5
                 ];    
                 break;
             }
@@ -251,11 +251,9 @@ function updateMap(map, circLayers, fillLayers, input, updateChartForYear) {
         map.setPaintProperty(hhLayer, 'line-width', 2);
     });
    
-    updateChartForYear(year);
+    // updateChartForYear(year);
 }
 
-
-// Assuming jQuery is used and is included before this script
 $(document).ready(function() {
     var intervalId; // Play button on slider
     var alphaYear = 1981; // Initialize alphaYear
@@ -291,13 +289,17 @@ $(document).ready(function() {
     $('#slider').on('input change', function() {
         var year = parseInt($(this).val());
         alphaYear = year;
-        console.log("Current feature before updateChartForYear:", feature);
+        
+        // Assuming there is a function to update the map based on the year
+        if (typeof updateMap === 'function') {
+            updateMap(map, circLayers, fillLayers, year, updateChartForYear);
+        }
+
+        // Check and log the state of feature
         if (feature) {
             updateChartForYear(alphaYear, feature);
         } else {
-            console.log("No feature selected. Cannot update charts.");
-            // Optionally handle this scenario by informing the user or choosing a default action
+            console.warn("Feature is not set. Cannot update charts without a valid feature.");
         }
-        updateMap(map, circLayers, fillLayers, year, updateChartForYear);
     });
 });
